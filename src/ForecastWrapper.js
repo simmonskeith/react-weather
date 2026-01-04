@@ -4,19 +4,19 @@ import { Forecast } from './Forecast';
 
 export function ForecastWrapper() {
 
-    const [location, setLocation] = React.useState({latitude: null, longitude: null, name: null, stateabbreviation: null, zipCode: null});
+    const [location, setLocation] = React.useState(null);
     const [zipCode, setZipCode] = React.useState("");
     const [tempZipCode, setTempZipCode] = React.useState("");
     
     React.useEffect(() => {
-        const defaultLocation = {latitude: null, longitude: null, name: null, stateabbreviation: null, zipCode: null};
+
         const fetchZip = async () => {
             try {
                 const response = await fetch(`http://api.zippopotam.us/us/${zipCode}`, { method: 'GET'});
                 if (response.status === 200) {
                     const zipInfo = await response.json();
                     if (!zipInfo.places) {
-                        setLocation(defaultLocation);
+                        setLocation(null);
                         return;
                     }
                     const updatedLocation = {
@@ -29,7 +29,7 @@ export function ForecastWrapper() {
                     setLocation(updatedLocation);
                 }
                 else {
-                    setLocation(defaultLocation);
+                    setLocation(null);
                 }
             } catch (error) {
                 console.error("Error fetching zip code info:", error);
@@ -59,7 +59,7 @@ export function ForecastWrapper() {
                 <button onClick={updateZip} disabled={!isValidZip(tempZipCode)}>Get Forecast</button>
                 <h2>Weather Forecast</h2>
                
-                {location.name 
+                {location 
                     ? <Forecast location={location} /> 
                     : <p>Please enter a valid zip code to get the forecast.</p>}
             </div>
