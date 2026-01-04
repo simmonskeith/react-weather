@@ -4,38 +4,38 @@ import { Forecast } from './Forecast';
 
 export function ForecastWrapper() {
 
-    const defaultLocation = {latitude: null, longitude: null, name: null, stateabbreviation: null, zipCode: null};
-    const [location, setLocation] = React.useState(defaultLocation);
+    const [location, setLocation] = React.useState({latitude: null, longitude: null, name: null, stateabbreviation: null, zipCode: null});
     const [zipCode, setZipCode] = React.useState("");
     const [tempZipCode, setTempZipCode] = React.useState("");
     
-    const fetchZip = async () => {
-        try {
-            const response = await fetch(`http://api.zippopotam.us/us/${zipCode}`, { method: 'GET'});
-            if (response.status === 200) {
-                const zipInfo = await response.json();
-                if (!zipInfo.places) {
-                    setLocation(defaultLocation);
-                    return;
-                }
-                const updatedLocation = {
-                    latitude: zipInfo.places[0]['latitude'],
-                    longitude: zipInfo.places[0]['longitude'],
-                    name: zipInfo.places[0]['place name'],
-                    stateabbreviation: zipInfo.places[0]['state abbreviation'],
-                    zipCode: zipCode
-                }
-                setLocation(updatedLocation);
-            }
-            else {
-                setLocation(defaultLocation);
-            }
-        } catch (error) {
-            console.error("Error fetching zip code info:", error);
-        }
-    }
-
     React.useEffect(() => {
+        const defaultLocation = {latitude: null, longitude: null, name: null, stateabbreviation: null, zipCode: null};
+        const fetchZip = async () => {
+            try {
+                const response = await fetch(`http://api.zippopotam.us/us/${zipCode}`, { method: 'GET'});
+                if (response.status === 200) {
+                    const zipInfo = await response.json();
+                    if (!zipInfo.places) {
+                        setLocation(defaultLocation);
+                        return;
+                    }
+                    const updatedLocation = {
+                        latitude: zipInfo.places[0]['latitude'],
+                        longitude: zipInfo.places[0]['longitude'],
+                        name: zipInfo.places[0]['place name'],
+                        stateabbreviation: zipInfo.places[0]['state abbreviation'],
+                        zipCode: zipCode
+                    }
+                    setLocation(updatedLocation);
+                }
+                else {
+                    setLocation(defaultLocation);
+                }
+            } catch (error) {
+                console.error("Error fetching zip code info:", error);
+            }
+        }
+
         if (isValidZip(zipCode)) {
             console.log("Fetching zip code info for " + zipCode);
             fetchZip();
