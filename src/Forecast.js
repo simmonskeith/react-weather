@@ -23,11 +23,7 @@ export function Forecast(props) {
     return (
             
             <div>
-                {props.location ? 
-                    (<div>
-                        <h3>Forecast for {props.location.name}, {props.location.stateabbreviation} {props.location.zipCode}</h3>
-                    </div>) : 
-                    (<></>)}
+                
                 {forecast && forecast['properties'] && forecast['properties']['periods'] ? (
                     <ForecastList location={props.location} forecast={forecast} />
                 ) : (

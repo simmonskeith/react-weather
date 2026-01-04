@@ -60,7 +60,10 @@ export function ForecastWrapper() {
                 <h2>Weather Forecast</h2>
                
                 {location 
-                    ? <Forecast location={location} /> 
+                    ? <div>
+                        <h3>Forecast for {location.name}, {location.stateabbreviation} {location.zipCode}</h3>
+                        <Forecast location={location} />
+                    </div> 
                     : <p>Please enter a valid zip code to get the forecast.</p>}
             </div>
     );
