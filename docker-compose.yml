@@ -1,0 +1,8 @@
+
+services:
+  React-Weather:
+    build: .
+    image: react-weather-image
+    container_name: react-weather
+    ports:
+      - "5000:3000"
