@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+
+import { ForecastWrapper } from './ForecastWrapper';
+
 
 test('renders get forecast button', () => {
-  render(<App />);
-  const getForecastButton = screen.getByText(/get forecast/i);
+  render(<ForecastWrapper />);
+  const getForecastButton = screen.getByText(/Get Forecast/i);
   expect(getForecastButton).toBeInTheDocument();
 });
